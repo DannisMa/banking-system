@@ -31,3 +31,18 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Docker / runtime artifacts
+postgres-data/
+pgdata/
+*.pid
+*.log
+
+# docker compose overrides and local envs
+docker-compose.override.yml
+docker-compose.*.local.yml
+.env
+
+# Docker build cache / temp
+.docker/
+docker-compose.*.tmp

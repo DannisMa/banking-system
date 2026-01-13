@@ -28,6 +28,10 @@ public class DataInitializer implements CommandLineRunner{
 
     @Override
     public void run(String... args) throws Exception {
+        if(userRepository.count() > 0){
+            System.out.println("資料庫已初始化，跳過資料建立。");
+            return;
+        }
         User user1 = new User(null, "dannis", "123456", "dannis@example.com");
         User user2 = new User(null,"alice" , "password", "alice@example.com");
         userRepository.saveAll(Arrays.asList(user1, user2));
