@@ -21,11 +21,11 @@
 ```mermaid
 graph TD
     User[使用者] -->|HTTP Request| UI[Angular 前端]
-    UI -->|REST API| Controller[Controller 層 (API 接口)]
+    UI -->|REST API| Controller[Controller 層 -API 接口]
 
     subgraph Backend [Spring Boot 後端]
-        Controller -->|DTO| Service[Service 層 (業務邏輯)]
-        Service -->|JPA| Repo[Repository 層 (資料存取)]
+        Controller -->|DTO| Service[Service 層 -業務邏輯]
+        Service -->|JPA| Repo[Repository 層 -資料存取]
     end
 
     subgraph Database [PostgreSQL / H2]
