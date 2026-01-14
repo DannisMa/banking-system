@@ -29,7 +29,7 @@ graph TD
     end
 
     subgraph Database [PostgreSQL / H2]
-        Repo -->|SQL| DB[(資料庫)]
+        Repo -->|SQL| DB[-資料庫]
     end
 
     Note[重點：@Transactional 交易控制]
