@@ -22,18 +22,21 @@
 graph TD
     User[使用者] -->|HTTP Request| UI[Angular 前端]
     UI -->|REST API| Controller[Controller 層 (API 接口)]
-    
+
     subgraph Backend [Spring Boot 後端]
         Controller -->|DTO| Service[Service 層 (業務邏輯)]
         Service -->|JPA| Repo[Repository 層 (資料存取)]
     end
-    
+
     subgraph Database [PostgreSQL / H2]
         Repo -->|SQL| DB[(資料庫)]
     end
-    
+
+    Note[重點：@Transactional 交易控制]
+    Note -.-> Service
+
     style Service fill:#f9f,stroke:#333,stroke-width:2px
-    note right of Service: 重點：@Transactional 交易控制
+    style Note fill:#fff3cd,stroke:#333,stroke-dasharray: 5 5
 ```
 
 ## 核心功能
@@ -70,12 +73,9 @@ ng serve
 ```
 
 ## API文件說明
-Method,Endpoint,Description
-GET,/api/accounts/{id},查詢特定帳戶餘額與資訊
-POST,/api/accounts/transfer,執行轉帳交易 (需帶入 JSON Body)
-GET,/api/accounts/{id}/transactions,查詢該帳戶的歷史交易紀錄
+| Method | Endpoint                        | Description           |
+| ------ | ------------------------------- | --------------------- |
+| GET    | /api/accounts/{id}              | 查詢特定帳戶餘額與資訊           |
+| POST   | /api/accounts/transfer          | 執行轉帳交易（需帶入 JSON Body） |
+| GET    | /api/accounts/{id}/transactions | 查詢該帳戶的歷史交易紀錄          |
 
-## 測試帳號
-系統初始化時會自動檢查並建立以下測試資料：
-* User ID 1: 初始餘額 TWD 1000
-* User ID 2: 初始餘額 TWD 500
