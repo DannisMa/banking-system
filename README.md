@@ -32,7 +32,7 @@ graph TD
         Repo -->|SQL| DB[-資料庫]
     end
 
-    Note[重點：@Transactional 交易控制]
+    Note[Transactional 交易控制]
     Note -.-> Service
 
     style Service fill:#f9f,stroke:#333,stroke-width:2px
