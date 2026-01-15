@@ -54,7 +54,7 @@ graph TD
 ## 如何執行專案
 ### 前置需求
 * Docker & Docker Compose
-* Java 17
+* Java 25
 * Node.js & npm
 ### 快速啟動(使用docker)
 本專案已容器化資料庫，請依序執行：
@@ -62,7 +62,7 @@ graph TD
 ```cmd=
 docker-compose up -d
 ```
-2. 啟動後端
+2. [啟動後端](https://github.com/DannisMa/banking-frontend)
 ```cmd=
 ./mvnw spring-boot:run
 ```
