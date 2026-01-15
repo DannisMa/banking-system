@@ -62,11 +62,11 @@ graph TD
 ```cmd=
 docker-compose up -d
 ```
-2. [啟動後端](https://github.com/DannisMa/banking-frontend)
+2. 啟動後端
 ```cmd=
 ./mvnw spring-boot:run
 ```
-3. 啟動前端
+3. [啟動前端](https://github.com/DannisMa/banking-frontend)
 ```cmd=
 cd banking-frontend
 ng serve
