@@ -2,14 +2,14 @@ version: '3.8'
 
 services:
   postgres:
-    image: postgres:15-alpine  # 使用輕量級的 Alpine Linux 版本
+    image: postgres:15-alpine 
     container_name: banking-postgres
     ports:
-      - "5432:5432"  # 將容器內的 5432 port 對應到你電腦的 5432 port
+      - "5432:5432"
     environment:
       - POSTGRES_DB=bankdb       # 資料庫名稱
       - POSTGRES_USER=postgres   # 帳號
-      - POSTGRES_PASSWORD=password # 密碼 (開發用，正式環境會用變數)
+      - POSTGRES_PASSWORD=password # 密碼
     volumes:
-      - ./postgres-data:/var/lib/postgresql/data # 關鍵！把資料掛載到你專案資料夾下，這樣刪除容器資料還在
+      - ./postgres-data:/var/lib/postgresql/data
     restart: always
