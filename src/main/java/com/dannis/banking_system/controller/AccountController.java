@@ -13,7 +13,6 @@ import com.dannis.banking_system.dto.TranactionsRespone;
 import com.dannis.banking_system.dto.TransferRequest;
 import com.dannis.banking_system.model.Account;
 import com.dannis.banking_system.model.Transaction;
-import com.dannis.banking_system.repository.TransactionRepository;
 import com.dannis.banking_system.service.AccountService;
 import com.dannis.banking_system.service.TransactionService;
 
