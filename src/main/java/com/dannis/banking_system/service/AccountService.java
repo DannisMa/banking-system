@@ -5,18 +5,16 @@ import java.math.BigDecimal;
 import org.springframework.stereotype.Service;
 
 import com.dannis.banking_system.model.Account;
-import com.dannis.banking_system.model.Transaction;
 import com.dannis.banking_system.repository.AccountRepository;
-import com.dannis.banking_system.repository.TransactionRepository;
 
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
-    private final TransactionRepository transactionRepository;
-    
-    public AccountService(AccountRepository accountRepository, TransactionRepository transactionRepository) {
+    private final TransactionService transactionService;
+
+    public AccountService(AccountRepository accountRepository, TransactionService transactionService) {
         this.accountRepository = accountRepository;
-        this.transactionRepository = transactionRepository;
+        this.transactionService = transactionService;
     }
 
     public void transfer(Long fromAccountId, Long toAccountId, BigDecimal amount) {
@@ -41,10 +39,8 @@ public class AccountService {
         accountRepository.save(toAccount);
 
         System.out.println("成功從帳戶 " + fromAccountId + " 轉帳 " + amount + " 到帳戶 " + toAccountId);
+        transactionService.recordTransaction(fromAccountId, toAccountId, amount);
 
-        Transaction record = new Transaction(fromAccountId, toAccountId, amount, java.time.LocalDateTime.now());
-        transactionRepository.save(record);
-        System.out.println("交易紀錄已保存");
     }
 
     public Account getAccountById(Long accountId) {

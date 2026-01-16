@@ -9,11 +9,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dannis.banking_system.dto.AccountResponse;
+import com.dannis.banking_system.dto.TranactionsRespone;
 import com.dannis.banking_system.dto.TransferRequest;
 import com.dannis.banking_system.model.Account;
 import com.dannis.banking_system.model.Transaction;
 import com.dannis.banking_system.repository.TransactionRepository;
 import com.dannis.banking_system.service.AccountService;
+import com.dannis.banking_system.service.TransactionService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -21,11 +24,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("/api/accounts")
 public class AccountController {
     private final AccountService accountService;
-    private final TransactionRepository transactionRepository;
+    private final TransactionService transactionService;
 
-    public AccountController(AccountService accountService, TransactionRepository transactionRepository) {
+    public AccountController(AccountService accountService, TransactionService transactionService) {
         this.accountService = accountService;
-        this.transactionRepository = transactionRepository;
+        this.transactionService = transactionService;
     }
 
     @PostMapping("/transfer")
@@ -49,7 +52,14 @@ public class AccountController {
     }
 
     @GetMapping("/{accountId}/transactions")
-    public List<Transaction> getTransactions(@PathVariable Long accountId) {
-        return transactionRepository.findByFromAccountIdOrToAccountIdOrderByTimestampDesc(accountId, accountId);
+    public List<TranactionsRespone> getTransactions(@PathVariable Long accountId) {
+        List<Transaction> transactions = transactionService.getTransactionsForAccount(accountId);
+        return transactions.stream().map(transaction -> new TranactionsRespone(
+                transaction.getId(),
+                transaction.getFromAccountId(),
+                transaction.getToAccountId(),
+                transaction.getAmount(),
+                transaction.getTimestamp()
+        )).toList();
     }
 }
