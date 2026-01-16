@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.dannis.banking_system.dto.AccountResponse;
 import com.dannis.banking_system.dto.TransferRequest;
 import com.dannis.banking_system.model.Account;
 import com.dannis.banking_system.model.Transaction;
@@ -21,12 +22,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequestMapping("/api/accounts")
 public class AccountController {
     private final AccountService accountService;
-    private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
-    public AccountController(AccountService accountService, AccountRepository accountRepository,TransactionRepository transactionRepository) {
+    public AccountController(AccountService accountService, TransactionRepository transactionRepository) {
         this.accountService = accountService;
-        this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
     }
 
@@ -44,8 +43,10 @@ public class AccountController {
     }
 
     @GetMapping("/{id}")
-    public Account getAccount(@PathVariable Long id){
-        return accountRepository.findById(id).orElseThrow(() -> new RuntimeException("找不到帳戶 ID: " + id));
+    public AccountResponse getAccount(@PathVariable Long id){
+        Account account = accountService.getAccountById(id);
+        AccountResponse accountResponse = new AccountResponse(account.getId(), account.getAccountNumber(), account.getBalance());
+        return accountResponse;
     }
 
     @GetMapping("/{accountId}/transactions")

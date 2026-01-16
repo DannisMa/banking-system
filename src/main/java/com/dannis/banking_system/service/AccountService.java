@@ -45,6 +45,9 @@ public class AccountService {
         Transaction record = new Transaction(fromAccountId, toAccountId, amount, java.time.LocalDateTime.now());
         transactionRepository.save(record);
         System.out.println("交易紀錄已保存");
+    }
 
+    public Account getAccountById(Long accountId) {
+        return accountRepository.findById(accountId).orElseThrow(() -> new RuntimeException("找不到帳戶 ID: " + accountId));
     }
 }
