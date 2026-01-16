@@ -36,8 +36,8 @@ public class DataInitializer implements CommandLineRunner{
         User user2 = new User(null,"alice" , "password", "alice@example.com");
         userRepository.saveAll(Arrays.asList(user1, user2));
 
-        Account account1 = new Account(null, "888-111-222", new BigDecimal("1000.00"), user1);
-        Account account2 = new Account(null, "999-333-444", new BigDecimal("500.00"), user2);
+        Account account1 = new Account(null, "888-111-222", new BigDecimal("100000.00"), user1);
+        Account account2 = new Account(null, "999-333-444", new BigDecimal("50000.00"), user2);
         accountRepository.saveAll(Arrays.asList(account1, account2));
 
         System.out.println("資料庫初始化完成！已建立 2 個使用者與 2 個帳戶。");
