@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.dannis.banking_system.model.Account;
 import com.dannis.banking_system.repository.AccountRepository;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AccountService {
     private final AccountRepository accountRepository;
@@ -17,13 +19,20 @@ public class AccountService {
         this.transactionService = transactionService;
     }
 
+    @Transactional
     public void transfer(Long fromAccountId, Long toAccountId, BigDecimal amount) {
         if(amount.compareTo(BigDecimal.ZERO) <= 0)
         {
             throw new RuntimeException("轉帳金額必大於0");
         }
-        Account fromAccount = accountRepository.findById(fromAccountId).orElseThrow(() -> new RuntimeException("找不到轉出帳戶 ID: " + fromAccountId));
-        Account toAccount = accountRepository.findById(toAccountId).orElseThrow(()-> new RuntimeException("找不到轉入帳戶 ID: " + toAccountId));
+        Long firstLockId = fromAccountId < toAccountId ? fromAccountId : toAccountId;
+        Long secondLockId = fromAccountId < toAccountId ? toAccountId : fromAccountId;
+
+        Account firstAccount = accountRepository.findByIdForUpdate(firstLockId).orElseThrow(()->new RuntimeException(firstLockId + "帳戶不存在"));
+        Account secondAccount = accountRepository.findByIdForUpdate(secondLockId).orElseThrow(()->new RuntimeException(secondLockId + "帳戶不存在"));
+
+        Account fromAccount = (firstAccount.getId().equals(fromAccountId)) ? firstAccount : secondAccount;
+        Account toAccount = (firstAccount.getId().equals(toAccountId)) ? firstAccount : secondAccount;
 
         if(fromAccount.getBalance().compareTo(amount) < 0)
         {
